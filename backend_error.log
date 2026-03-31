@@ -1,0 +1,2381 @@
+
+--- ERROR AT http://127.0.0.1:8000/api/v1/pos/sessions ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedTableError: relation "pos_sessions" does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedTableError'>: relation "pos_sessions" does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 94, in list_sessions
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation "pos_sessions" does not exist
+[SQL: SELECT pos_sessions.id, pos_sessions.tenant_id, pos_sessions.user_id, pos_sessions.name, pos_sessions.start_at, pos_sessions.stop_at, pos_sessions.status, pos_sessions.opening_balance, pos_sessions.closing_balance 
+FROM pos_sessions 
+WHERE pos_sessions.tenant_id = $1::UUID ORDER BY pos_sessions.start_at DESC]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://127.0.0.1:8000/api/v1/pos/products ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedColumnError: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 52, in list_pos_products
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+[SQL: SELECT products.id, products.tenant_id, products.name, products.sku, products.type, products.category_id, products.price, products.cost, products.image_url, products.description_sales, products.is_active, products.is_deleted, products.created_at, products.updated_at, product_categories.name AS category_name 
+FROM products LEFT OUTER JOIN product_categories ON products.category_id = product_categories.id 
+WHERE products.tenant_id = $1::UUID AND products.is_active = true]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://127.0.0.1:8000/api/v1/pos/products ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedColumnError: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 52, in list_pos_products
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+[SQL: SELECT products.id, products.tenant_id, products.name, products.sku, products.type, products.category_id, products.price, products.cost, products.image_url, products.description_sales, products.is_active, products.is_deleted, products.created_at, products.updated_at, product_categories.name AS category_name 
+FROM products LEFT OUTER JOIN product_categories ON products.category_id = product_categories.id 
+WHERE products.tenant_id = $1::UUID AND products.is_active = true]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/products ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedColumnError: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 52, in list_pos_products
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+[SQL: SELECT products.id, products.tenant_id, products.name, products.sku, products.type, products.category_id, products.price, products.cost, products.image_url, products.description_sales, products.is_active, products.is_deleted, products.created_at, products.updated_at, product_categories.name AS category_name 
+FROM products LEFT OUTER JOIN product_categories ON products.category_id = product_categories.id 
+WHERE products.tenant_id = $1::UUID AND products.is_active = true]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/products ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedColumnError: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 52, in list_pos_products
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+[SQL: SELECT products.id, products.tenant_id, products.name, products.sku, products.type, products.category_id, products.price, products.cost, products.image_url, products.description_sales, products.is_active, products.is_deleted, products.created_at, products.updated_at, product_categories.name AS category_name 
+FROM products LEFT OUTER JOIN product_categories ON products.category_id = product_categories.id 
+WHERE products.tenant_id = $1::UUID AND products.is_active = true]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/products ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedColumnError: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 52, in list_pos_products
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+[SQL: SELECT products.id, products.tenant_id, products.name, products.sku, products.type, products.category_id, products.price, products.cost, products.image_url, products.description_sales, products.is_active, products.is_deleted, products.created_at, products.updated_at, product_categories.name AS category_name 
+FROM products LEFT OUTER JOIN product_categories ON products.category_id = product_categories.id 
+WHERE products.tenant_id = $1::UUID AND products.is_active = true]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/products ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedColumnError: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 52, in list_pos_products
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+[SQL: SELECT products.id, products.tenant_id, products.name, products.sku, products.type, products.category_id, products.price, products.cost, products.image_url, products.description_sales, products.is_active, products.is_deleted, products.created_at, products.updated_at, product_categories.name AS category_name 
+FROM products LEFT OUTER JOIN product_categories ON products.category_id = product_categories.id 
+WHERE products.tenant_id = $1::UUID AND products.is_active = true]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/setup ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedColumnError: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 35, in setup_pos
+    await seed_pos_demo_data(db, user.tenant_id)
+  File "/home/rigz/projects/erp/backend/modules/pos/seeds.py", line 51, in seed_pos_demo_data
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+[SQL: SELECT products.id, products.tenant_id, products.name, products.sku, products.type, products.category_id, products.price, products.cost, products.image_url, products.description_sales, products.is_active, products.is_deleted, products.created_at, products.updated_at 
+FROM products 
+WHERE products.sku = $1::VARCHAR AND products.tenant_id = $2::UUID]
+[parameters: ('LP14', UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'))]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/products ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedColumnError: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 52, in list_pos_products
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+[SQL: SELECT products.id, products.tenant_id, products.name, products.sku, products.type, products.category_id, products.price, products.cost, products.image_url, products.description_sales, products.is_active, products.is_deleted, products.created_at, products.updated_at, product_categories.name AS category_name 
+FROM products LEFT OUTER JOIN product_categories ON products.category_id = product_categories.id 
+WHERE products.tenant_id = $1::UUID AND products.is_active = true]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/products ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 526, in _prepare_and_execute
+    prepared_stmt, attributes = await adapt_connection._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 773, in _prepare
+    prepared_stmt = await self._connection.prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 638, in prepare
+    return await self._prepare(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 657, in _prepare
+    stmt = await self._get_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/connection.py", line 443, in _get_statement
+    statement = await self._protocol.prepare(
+  File "asyncpg/protocol/protocol.pyx", line 165, in prepare
+asyncpg.exceptions.UndefinedColumnError: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.ProgrammingError: <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 52, in list_pos_products
+    result = await db.execute(stmt)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.ProgrammingError: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedColumnError'>: column products.image_url does not exist
+[SQL: SELECT products.id, products.tenant_id, products.name, products.sku, products.type, products.category_id, products.price, products.cost, products.image_url, products.description_sales, products.is_active, products.is_deleted, products.created_at, products.updated_at, product_categories.name AS category_name 
+FROM products LEFT OUTER JOIN product_categories ON products.category_id = product_categories.id 
+WHERE products.tenant_id = $1::UUID AND products.is_active = true]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/setup ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 44, in setup_pos
+    await seed_pos_demo_data(db, user.tenant_id)
+  File "/home/rigz/projects/erp/backend/modules/pos/seeds.py", line 203, in seed_pos_demo_data
+    stages.append(CrmStage(tenant_id=tenant_id, pipeline_id=pipeline.id, **s))
+  File "<string>", line 4, in __init__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/state.py", line 596, in _initialize_instance
+    with util.safe_reraise():
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 121, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/state.py", line 594, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 2179, in _declarative_constructor
+    raise TypeError(
+TypeError: 'tenant_id' is an invalid keyword argument for CrmStage
+
+--- ERROR AT http://localhost:8000/api/v1/pos/setup ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 44, in setup_pos
+    await seed_pos_demo_data(db, user.tenant_id)
+  File "/home/rigz/projects/erp/backend/modules/pos/seeds.py", line 203, in seed_pos_demo_data
+    stages.append(CrmStage(tenant_id=tenant_id, pipeline_id=pipeline.id, **s))
+  File "<string>", line 4, in __init__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/state.py", line 596, in _initialize_instance
+    with util.safe_reraise():
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 121, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/state.py", line 594, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 2179, in _declarative_constructor
+    raise TypeError(
+TypeError: 'tenant_id' is an invalid keyword argument for CrmStage
+
+--- ERROR AT http://localhost:8000/api/v1/pos/setup ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 44, in setup_pos
+    await seed_pos_demo_data(db, user.tenant_id)
+  File "/home/rigz/projects/erp/backend/modules/pos/seeds.py", line 203, in seed_pos_demo_data
+    stages.append(CrmStage(tenant_id=tenant_id, pipeline_id=pipeline.id, **s))
+  File "<string>", line 4, in __init__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/state.py", line 596, in _initialize_instance
+    with util.safe_reraise():
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 121, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/state.py", line 594, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 2179, in _declarative_constructor
+    raise TypeError(
+TypeError: 'tenant_id' is an invalid keyword argument for CrmStage
+
+--- ERROR AT http://localhost:8000/api/v1/pos/setup ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 49, in setup_pos
+    await db.execute(delete(POSOrderLine).where(POSOrderLine.tenant_id == user.tenant_id))
+NameError: name 'POSOrderLine' is not defined. Did you mean: 'SalesOrderLine'?
+
+--- ERROR AT http://localhost:8000/api/v1/pos/setup ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 45, in setup_pos
+    await seed_pos_demo_data(db, user.tenant_id)
+  File "/home/rigz/projects/erp/backend/modules/pos/seeds.py", line 527, in seed_pos_demo_data
+    stages.append(CrmStage(tenant_id=tenant_id, pipeline_id=pipeline.id, **s))
+  File "<string>", line 4, in __init__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/state.py", line 596, in _initialize_instance
+    with util.safe_reraise():
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 121, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/state.py", line 594, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 2179, in _declarative_constructor
+    raise TypeError(
+TypeError: 'tenant_id' is an invalid keyword argument for CrmStage
+
+--- ERROR AT http://localhost:8000/api/v1/pos/setup ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: update or delete on table "products" violates foreign key constraint "sales_order_lines_product_id_fkey" on table "sales_order_lines"
+DETAIL:  Key (id)=(23dff205-6603-4ebd-bc00-98d781cbb99b) is still referenced from table "sales_order_lines".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: update or delete on table "products" violates foreign key constraint "sales_order_lines_product_id_fkey" on table "sales_order_lines"
+DETAIL:  Key (id)=(23dff205-6603-4ebd-bc00-98d781cbb99b) is still referenced from table "sales_order_lines".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 59, in setup_pos
+    await db.execute(delete(Product).where(Product.tenant_id == user.tenant_id))
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/bulk_persistence.py", line 2033, in orm_execute_statement
+    return super().orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: update or delete on table "products" violates foreign key constraint "sales_order_lines_product_id_fkey" on table "sales_order_lines"
+DETAIL:  Key (id)=(23dff205-6603-4ebd-bc00-98d781cbb99b) is still referenced from table "sales_order_lines".
+[SQL: DELETE FROM products WHERE products.tenant_id = $1::UUID]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/setup ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.ForeignKeyViolationError: update or delete on table "products" violates foreign key constraint "sales_order_lines_product_id_fkey" on table "sales_order_lines"
+DETAIL:  Key (id)=(23dff205-6603-4ebd-bc00-98d781cbb99b) is still referenced from table "sales_order_lines".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.ForeignKeyViolationError'>: update or delete on table "products" violates foreign key constraint "sales_order_lines_product_id_fkey" on table "sales_order_lines"
+DETAIL:  Key (id)=(23dff205-6603-4ebd-bc00-98d781cbb99b) is still referenced from table "sales_order_lines".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 59, in setup_pos
+    await db.execute(delete(Product).where(Product.tenant_id == user.tenant_id))
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 449, in execute
+    result = await greenlet_spawn(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/bulk_persistence.py", line 2033, in orm_execute_statement
+    return super().orm_execute_statement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: update or delete on table "products" violates foreign key constraint "sales_order_lines_product_id_fkey" on table "sales_order_lines"
+DETAIL:  Key (id)=(23dff205-6603-4ebd-bc00-98d781cbb99b) is still referenced from table "sales_order_lines".
+[SQL: DELETE FROM products WHERE products.tenant_id = $1::UUID]
+[parameters: (UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'),)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+--- ERROR AT http://localhost:8000/api/v1/pos/orders ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 173, in create_order
+    order_number=f"SO-{order.order_reference}",
+NameError: name 'order' is not defined
+
+--- ERROR AT http://localhost:8000/api/v1/pos/orders ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 173, in create_order
+    order_number=f"SO-{order.order_reference}",
+NameError: name 'order' is not defined
+
+--- ERROR AT http://localhost:8000/api/v1/pos/orders ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 550, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/prepared_stmt.py", line 177, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/prepared_stmt.py", line 268, in __bind_execute
+    data, status, _ = await self.__do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/asyncpg/prepared_stmt.py", line 257, in __do_execute
+    return await executor(protocol)
+  File "asyncpg/protocol/protocol.pyx", line 205, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "contact_id" of relation "sales_orders" violates not-null constraint
+DETAIL:  Failing row contains (5d23b94e-3d7d-41b2-b5aa-495799850ac0, c988dac8-854e-40f5-817d-878eb6e18ec6, SO-POS/1774942663825, null, null, null, confirmed, 2026-03-31 07:37:45.03149+00, null, 5500.00, 880.00, 6380.00, POS Terminal: POS/1774942663825, null, bc9ddfa2-844b-40c3-a3d7-7524d10df0e0, 2026-03-31 07:37:45.03149+00, 2026-03-31 07:37:45.03149+00).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "contact_id" of relation "sales_orders" violates not-null constraint
+DETAIL:  Failing row contains (5d23b94e-3d7d-41b2-b5aa-495799850ac0, c988dac8-854e-40f5-817d-878eb6e18ec6, SO-POS/1774942663825, null, null, null, confirmed, 2026-03-31 07:37:45.03149+00, null, 5500.00, 880.00, 6380.00, POS Terminal: POS/1774942663825, null, bc9ddfa2-844b-40c3-a3d7-7524d10df0e0, 2026-03-31 07:37:45.03149+00, 2026-03-31 07:37:45.03149+00).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/pos/router.py", line 196, in create_order
+    await db.flush()
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 787, in flush
+    await greenlet_spawn(self.sync_session.flush, objects=objects)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 203, in greenlet_spawn
+    result = context.switch(value)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 121, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 585, in execute
+    self._adapt_connection.await_(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 563, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 513, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 797, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "contact_id" of relation "sales_orders" violates not-null constraint
+DETAIL:  Failing row contains (5d23b94e-3d7d-41b2-b5aa-495799850ac0, c988dac8-854e-40f5-817d-878eb6e18ec6, SO-POS/1774942663825, null, null, null, confirmed, 2026-03-31 07:37:45.03149+00, null, 5500.00, 880.00, 6380.00, POS Terminal: POS/1774942663825, null, bc9ddfa2-844b-40c3-a3d7-7524d10df0e0, 2026-03-31 07:37:45.03149+00, 2026-03-31 07:37:45.03149+00).
+[SQL: INSERT INTO sales_orders (id, tenant_id, order_number, contact_id, lead_id, salesperson_id, status, validity_date, amount_untaxed, amount_tax, amount_total, customer_reference, notes, created_by) VALUES ($1::UUID, $2::UUID, $3::VARCHAR, $4::UUID, $5::UUID, $6::UUID, $7::VARCHAR, $8::TIMESTAMP WITH TIME ZONE, $9::NUMERIC(15, 2), $10::NUMERIC(15, 2), $11::NUMERIC(15, 2), $12::VARCHAR, $13::VARCHAR, $14::UUID) RETURNING sales_orders.order_date, sales_orders.created_at, sales_orders.updated_at]
+[parameters: (UUID('5d23b94e-3d7d-41b2-b5aa-495799850ac0'), UUID('c988dac8-854e-40f5-817d-878eb6e18ec6'), 'SO-POS/1774942663825', None, None, None, 'confirmed', None, 5500.0, 880.0, 6380.0, 'POS Terminal: POS/1774942663825', None, UUID('bc9ddfa2-844b-40c3-a3d7-7524d10df0e0'))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+--- ERROR AT http://localhost:8000/api/v1/sales/orders?per_page=50 ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/sales/router.py", line 109, in list_orders
+    return await service.list_orders(
+  File "/home/rigz/projects/erp/backend/modules/sales/service.py", line 142, in list_orders
+    data=[SalesOrderListResponse.model_validate(o) for o in orders],
+  File "/home/rigz/projects/erp/backend/modules/sales/service.py", line 142, in <listcomp>
+    data=[SalesOrderListResponse.model_validate(o) for o in orders],
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/pydantic/main.py", line 716, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+pydantic_core._pydantic_core.ValidationError: 1 validation error for SalesOrderListResponse
+contact_id
+  UUID input should be a string, bytes or UUID object [type=uuid_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/uuid_type
+
+--- ERROR AT http://localhost:8000/api/v1/sales/orders?per_page=50 ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/sales/router.py", line 109, in list_orders
+    return await service.list_orders(
+  File "/home/rigz/projects/erp/backend/modules/sales/service.py", line 142, in list_orders
+    data=[SalesOrderListResponse.model_validate(o) for o in orders],
+  File "/home/rigz/projects/erp/backend/modules/sales/service.py", line 142, in <listcomp>
+    data=[SalesOrderListResponse.model_validate(o) for o in orders],
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/pydantic/main.py", line 716, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+pydantic_core._pydantic_core.ValidationError: 1 validation error for SalesOrderListResponse
+contact_id
+  UUID input should be a string, bytes or UUID object [type=uuid_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/uuid_type
+
+--- ERROR AT http://localhost:8000/api/v1/sales/orders?per_page=50 ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/sales/router.py", line 109, in list_orders
+    return await service.list_orders(
+  File "/home/rigz/projects/erp/backend/modules/sales/service.py", line 142, in list_orders
+    data=[SalesOrderListResponse.model_validate(o) for o in orders],
+  File "/home/rigz/projects/erp/backend/modules/sales/service.py", line 142, in <listcomp>
+    data=[SalesOrderListResponse.model_validate(o) for o in orders],
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/pydantic/main.py", line 716, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+pydantic_core._pydantic_core.ValidationError: 1 validation error for SalesOrderListResponse
+contact_id
+  UUID input should be a string, bytes or UUID object [type=uuid_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/uuid_type
+
+--- ERROR AT http://localhost:8000/api/v1/sales/orders?per_page=50 ---
+Traceback (most recent call last):
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/erp/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/erp/backend/modules/sales/router.py", line 109, in list_orders
+    return await service.list_orders(
+  File "/home/rigz/projects/erp/backend/modules/sales/service.py", line 142, in list_orders
+    data=[SalesOrderListResponse.model_validate(o) for o in orders],
+  File "/home/rigz/projects/erp/backend/modules/sales/service.py", line 142, in <listcomp>
+    data=[SalesOrderListResponse.model_validate(o) for o in orders],
+  File "/home/rigz/projects/erp/.venv/lib/python3.10/site-packages/pydantic/main.py", line 716, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+pydantic_core._pydantic_core.ValidationError: 1 validation error for SalesOrderListResponse
+contact_id
+  UUID input should be a string, bytes or UUID object [type=uuid_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/uuid_type

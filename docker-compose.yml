@@ -1,0 +1,68 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://erp:erp@db:5432/erp
+      DATABASE_URL_SYNC: postgresql://erp:erp@db:5432/erp
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: dev-secret-key-do-not-use-in-production
+      APP_ENV: development
+      DEBUG: "true"
+    volumes:
+      - ./backend:/app/backend
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: erp
+      POSTGRES_USER: erp
+      POSTGRES_PASSWORD: erp
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U erp -d erp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A backend.workers.celery_app worker -l info
+    environment:
+      DATABASE_URL: postgresql+asyncpg://erp:erp@db:5432/erp
+      DATABASE_URL_SYNC: postgresql://erp:erp@db:5432/erp
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: dev-secret-key-do-not-use-in-production
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
