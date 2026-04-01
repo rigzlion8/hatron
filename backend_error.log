@@ -2379,3 +2379,4 @@ pydantic_core._pydantic_core.ValidationError: 1 validation error for SalesOrderL
 contact_id
   UUID input should be a string, bytes or UUID object [type=uuid_type, input_value=None, input_type=NoneType]
     For further information visit https://errors.pydantic.dev/2.12/v/uuid_type
+Permission fix test
