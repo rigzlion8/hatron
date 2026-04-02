@@ -20,15 +20,26 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
-from backend.core.config import settings
+from backend.settings import settings
 from backend.modules.pos.seeds import seed_pos_demo_data
+
+# Import all models to ensure they're registered with SQLAlchemy
+from backend.core.models import TenantModel
+from backend.core.security import hash_password
+from backend.modules.auth.models import User, Role
+from backend.modules.contacts.models import Contact
+from backend.modules.sales.models import Product, ProductCategory, SalesOrder, SalesOrderLine
+from backend.modules.inventory.models import StockMove, StockPicking, StockQuant
+from backend.modules.invoicing.models import Invoice, InvoiceLine, Payment
+from backend.modules.crm.models import CrmLead, CrmActivity, CrmStage, CrmPipeline
+from backend.modules.purchase.models import PurchaseOrder, PurchaseOrderLine
 
 
 async def seed_database(clean: bool = False):
     """Seed the database with demo data."""
 
     # Create async engine
-    engine = create_async_engine(settings.database_url, echo=False)
+    engine = create_async_engine(settings.DATABASE_URL, echo=False)
     async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
     async with async_session() as db:
@@ -60,20 +71,58 @@ async def seed_database(clean: bool = False):
             print("Existing data cleaned.")
 
         # Get or create a demo tenant
-        from backend.modules.tenants.models import Tenant
+        from backend.core.models import TenantModel
         from sqlalchemy import select
 
-        stmt = select(Tenant).where(Tenant.name == "Demo Tenant")
+        stmt = select(TenantModel).where(TenantModel.name == "Demo Tenant")
         tenant = (await db.execute(stmt)).scalar_one_or_none()
 
         if not tenant:
-            tenant = Tenant(name="Demo Tenant", slug="demo")
+            tenant = TenantModel(name="Demo Tenant", slug="demo")
             db.add(tenant)
             await db.commit()
             await db.refresh(tenant)
             print(f"Created demo tenant: {tenant.name} ({tenant.id})")
         else:
             print(f"Using existing tenant: {tenant.name} ({tenant.id})")
+
+        # Create admin user for demo, from env vars only (no credentials in code)
+        from sqlalchemy import select
+
+        admin_email = os.getenv("SEED_ADMIN_EMAIL")
+        admin_password = os.getenv("SEED_ADMIN_PASSWORD")
+
+        if not admin_email or not admin_password:
+            raise RuntimeError(
+                "SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD must be set in the environment "
+                "before running seed_data.py"
+            )
+
+        admin_role_stmt = select(Role).where(Role.name == "Admin", Role.tenant_id == tenant.id)
+        admin_role = (await db.execute(admin_role_stmt)).scalar_one_or_none()
+        if not admin_role:
+            admin_role = Role(name="Admin", tenant_id=tenant.id, description="Administrator role", is_system=True)
+            db.add(admin_role)
+            await db.flush()
+
+        admin_user_stmt = select(User).where(User.email == admin_email, User.tenant_id == tenant.id)
+        admin_user = (await db.execute(admin_user_stmt)).scalar_one_or_none()
+        if not admin_user:
+            admin_user = User(
+                tenant_id=tenant.id,
+                email=admin_email,
+                full_name="Admin ERP",
+                password_hash=hash_password(admin_password),
+                is_active=True,
+                is_superuser=True,
+            )
+            admin_user.roles.append(admin_role)
+            db.add(admin_user)
+            await db.commit()
+            await db.refresh(admin_user)
+            print(f"Created admin user: {admin_user.email}")
+        else:
+            print(f"Existing admin user found: {admin_user.email}")
 
         # Seed POS demo data
         print("Seeding POS demo data...")

@@ -16,7 +16,9 @@ export const metadata: Metadata = {
   title: "Hatron ERP SaaS",
   description: "Modern AI-Powered ERP Solutions",
   icons: {
-    icon: "/images/logo.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 
@@ -30,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.ico" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

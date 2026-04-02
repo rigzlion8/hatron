@@ -40,6 +40,8 @@ from backend.modules.hr.models import Employee, Department, TimeOffRequest  # no
 from backend.modules.projects.models import Project, ProjectTask, Timesheet  # noqa: F401
 from backend.modules.manufacturing.models import BillOfMaterial, BillOfMaterialLine, ManufacturingOrder  # noqa: F401
 from backend.modules.elearning.models import Course, CourseModule, Enrollment  # noqa: F401
+from backend.modules.pos.models import POSSession, POSOrder, POSOrderLine  # noqa: F401
+from backend.modules.settings.models import SystemSettings  # noqa: F401
 
 target_metadata = Base.metadata
 

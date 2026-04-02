@@ -40,6 +40,14 @@ const APPS = [
     bgColor: 'rgba(139, 92, 246, 0.1)'
   },
   { 
+    name: 'Contacts', 
+    description: 'Customer and vendor management',
+    icon: Users, 
+    path: '/dashboard/contacts',
+    color: '#22d3ee',
+    bgColor: 'rgba(34, 211, 238, 0.1)'
+  },
+  { 
     name: 'Invoicing', 
     description: 'Billing & Payments',
     icon: Wallet, 

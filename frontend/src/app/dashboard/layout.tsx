@@ -23,6 +23,7 @@ import ThemeToggle from '@/components/ThemeToggle';
 
 const MODULES = [
   { name: 'Point of Sale', icon: MonitorSmartphone, path: '/dashboard/pos' },
+  { name: 'Contacts', icon: Users, path: '/dashboard/contacts' },
   { name: 'CRM', icon: Users, path: '/dashboard/crm' },
   { name: 'Sales', icon: ShoppingCart, path: '/dashboard/sales' },
   { name: 'Products', icon: Package, path: '/dashboard/products' },
