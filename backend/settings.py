@@ -31,8 +31,13 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
-    # CORS (Broadened for dev troubleshooting)
-    CORS_ORIGINS: List[str] = ["*"]
+    # CORS — NOTE: wildcard "*" cannot be used with allow_credentials=True.
+    # Always list explicit origins when credentials (cookies/JWT) are sent.
+    CORS_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+    ]
 
     # File uploads
     UPLOAD_DIR: str = "./uploads"

@@ -28,7 +28,7 @@ async def get_or_create_settings(db: AsyncSession, tenant_id: uuid.UUID) -> Syst
     return settings
 
 
-@router.get("/", response_model=SystemSettingsResponse)
+@router.get("", response_model=SystemSettingsResponse)
 async def get_system_settings(
     db: AsyncSession = Depends(get_db),
     user: User = Depends(get_current_user)
@@ -37,7 +37,7 @@ async def get_system_settings(
     return await get_or_create_settings(db, user.tenant_id)
 
 
-@router.put("/", response_model=SystemSettingsResponse)
+@router.put("", response_model=SystemSettingsResponse)
 async def update_system_settings(
     data: SystemSettingsUpdate,
     db: AsyncSession = Depends(get_db),

@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+// Use a relative URL so requests go through Next.js's proxy rewrite (/api/v1/* → backend).
+// This means the browser never makes a cross-origin request — no CORS involved.
+// For server-side rendering, fall back to the full backend URL via env var.
+const API_URL =
+  typeof window !== 'undefined'
+    ? '/api/v1'
+    : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1');
 
 // Create an Axios instance with base configuration
 export const api = axios.create({

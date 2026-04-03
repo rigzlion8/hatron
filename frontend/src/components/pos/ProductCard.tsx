@@ -30,9 +30,9 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
         cursor: 'pointer',
         transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
         border: '1px solid var(--border-color)',
-        height: '100%',
+        backgroundColor: 'var(--bg-primary)',
         overflow: 'hidden',
-        backgroundColor: 'var(--bg-primary)'
+        height: '100%'
       }}
       onClick={() => onAdd(product)}
       onMouseEnter={(e) => {
@@ -49,22 +49,24 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
       {/* Product Image */}
       <div style={{
         width: '100%',
-        aspectRatio: '1',
+        height: '130px',
         backgroundColor: 'var(--bg-tertiary)',
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        padding: '1.25rem',
+        flexShrink: 0
       }}>
         {product.image_url ? (
           <img 
             src={product.image_url} 
             alt={product.name}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover'
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain'
             }}
           />
         ) : (
@@ -74,7 +76,7 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
         )}
       </div>
 
-      <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', flexGrow: 1 }}>
+      <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
         <div style={{
           fontSize: '0.7rem',
           textTransform: 'uppercase',
@@ -89,7 +91,6 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
           fontWeight: 600, 
           fontSize: '0.95rem',
           color: 'var(--text-primary)',
-          flexGrow: 1,
           lineHeight: 1.4
         }}>
           {product.name}
@@ -99,12 +100,14 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginTop: '0.25rem'
+          marginTop: 'auto',
+          gap: '0.5rem'
         }}>
           <div style={{ 
             fontSize: '1rem', 
             fontWeight: 700, 
-            color: 'var(--accent-primary)' 
+            color: 'var(--accent-primary)',
+            lineHeight: 1.2
           }}>
             {formatKES(product.price)}
           </div>
@@ -117,7 +120,8 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'var(--text-secondary)'
+            color: 'var(--text-secondary)',
+            flexShrink: 0
           }}>
             <Plus size={16} />
           </div>

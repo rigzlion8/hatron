@@ -65,7 +65,7 @@ export default function DashboardLayout({
 
   const fetchSettings = async () => {
     try {
-      const response = await api.get('/settings/');
+      const response = await api.get('/settings');
       setSettings(response.data);
     } catch (error) {
       console.error("Failed to load settings:", error);

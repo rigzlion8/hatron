@@ -582,6 +582,7 @@ export default function POSPage() {
           padding: '2rem',
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+          gridAutoRows: '280px',
           gap: '1.5rem',
           alignContent: 'start'
         }}>
