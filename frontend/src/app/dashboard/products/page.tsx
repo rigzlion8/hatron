@@ -300,10 +300,9 @@ export default function ProductsPage() {
                       overflow: 'hidden'
                     }}>
                       {prod.image_url ? (
-                        <img src={prod.image_url} alt={prod.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                      ) : (
-                        <Box size={24} color="var(--text-tertiary)" />
-                      )}
+                        <img src={prod.image_url} alt={prod.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                      ) : null}
+                      {(!prod.image_url) && <Box size={24} color="var(--text-tertiary)" />}
                     </div>
                     <div>
                       <h3 style={{ fontWeight: 600, fontSize: '1.1rem', marginBottom: '0.25rem' }}>{prod.name}</h3>

@@ -68,8 +68,10 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
               maxHeight: '100%',
               objectFit: 'contain'
             }}
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
           />
-        ) : (
+        ) : null}
+        {(!product.image_url) && (
           <div style={{ color: 'var(--text-tertiary)', opacity: 0.3 }}>
             <Plus size={40} strokeWidth={1} />
           </div>

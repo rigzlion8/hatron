@@ -104,7 +104,8 @@ def create_app() -> FastAPI:
 
     # ─── Static Files ───
     # Mount uploads directory for serving uploaded files
-    uploads_dir = settings.UPLOAD_DIR
+    # Normalize to absolute path to avoid issues with relative paths across different working directories
+    uploads_dir = os.path.abspath(settings.UPLOAD_DIR)
     if not os.path.exists(uploads_dir):
         os.makedirs(uploads_dir)
     application.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")

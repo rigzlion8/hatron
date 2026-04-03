@@ -24,11 +24,40 @@ interface Contact {
   is_vendor: boolean;
 }
 
+interface ContactFormData {
+  name: string;
+  email: string;
+  phone: string;
+  mobile: string;
+  type: 'individual' | 'company';
+  is_customer: boolean;
+  is_vendor: boolean;
+  website: string;
+  tax_id: string;
+  notes: string;
+}
+
+const defaultFormData: ContactFormData = {
+  name: '',
+  email: '',
+  phone: '',
+  mobile: '',
+  type: 'individual',
+  is_customer: false,
+  is_vendor: false,
+  website: '',
+  tax_id: '',
+  notes: ''
+};
+
 export default function ContactsPage() {
   const router = useRouter();
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState<ContactFormData>(defaultFormData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetchContacts();
@@ -38,11 +67,53 @@ export default function ContactsPage() {
     try {
       setLoading(true);
       const res = await api.get('/contacts?per_page=100');
-      setContacts(res.data.items || []);
+      setContacts(res.data.data || []);
     } catch (err) {
       console.error('Failed to load contacts', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleOpenCreate = () => {
+    setFormData(defaultFormData);
+    setShowModal(true);
+  };
+
+  const handleInputChange = (field: keyof ContactFormData, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name.trim()) {
+      alert('Name is required');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim() || undefined,
+        phone: formData.phone.trim() || undefined,
+        mobile: formData.mobile.trim() || undefined,
+        type: formData.type,
+        is_customer: formData.is_customer,
+        is_vendor: formData.is_vendor,
+        website: formData.website.trim() || undefined,
+        tax_id: formData.tax_id.trim() || undefined,
+        notes: formData.notes.trim() || undefined
+      };
+      
+      await api.post('/contacts', payload);
+      setShowModal(false);
+      await fetchContacts();
+    } catch (err) {
+      console.error('Failed to create contact', err);
+      alert('Failed to create contact');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -70,7 +141,7 @@ export default function ContactsPage() {
             <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)' }} />
             <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search contacts" className="input" style={{ paddingLeft: '2.25rem', width: '100%', borderRadius: '2rem' }} />
           </div>
-          <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={() => alert('Create contact is not implemented yet, but API supports /contacts POST')}>
+          <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={handleOpenCreate}>
             <Plus size={16} /> New Contact
           </button>
         </div>
@@ -114,6 +185,183 @@ export default function ContactsPage() {
           </table>
         </div>
       </div>
+
+      {/* Create Contact Modal */}
+      {showModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backdropFilter: 'blur(4px)'
+        }}>
+          <div className="card animate-fade-in" style={{ 
+            width: '90%', 
+            maxWidth: '600px', 
+            maxHeight: '90vh',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: 0,
+            overflow: 'hidden'
+          }}>
+            {/* Modal Header */}
+            <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--bg-secondary)' }}>
+              <h2 style={{ fontWeight: 600, fontSize: '1.25rem', margin: 0 }}>New Contact</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <form onSubmit={handleSubmit} style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {/* Name */}
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Name *</label>
+                <input
+                  type="text"
+                  className="input"
+                  value={formData.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  placeholder="Contact name"
+                  required
+                />
+              </div>
+
+              {/* Type */}
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Type</label>
+                <select
+                  className="input"
+                  value={formData.type}
+                  onChange={(e) => handleInputChange('type', e.target.value as 'individual' | 'company')}
+                >
+                  <option value="individual">Individual</option>
+                  <option value="company">Company</option>
+                </select>
+              </div>
+
+              {/* Email */}
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Email</label>
+                <input
+                  type="email"
+                  className="input"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  placeholder="email@example.com"
+                />
+              </div>
+
+              {/* Phone & Mobile */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Phone</label>
+                  <input
+                    type="tel"
+                    className="input"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    placeholder="Phone"
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Mobile</label>
+                  <input
+                    type="tel"
+                    className="input"
+                    value={formData.mobile}
+                    onChange={(e) => handleInputChange('mobile', e.target.value)}
+                    placeholder="Mobile"
+                  />
+                </div>
+              </div>
+
+              {/* Website & Tax ID */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Website</label>
+                  <input
+                    type="text"
+                    className="input"
+                    value={formData.website}
+                    onChange={(e) => handleInputChange('website', e.target.value)}
+                    placeholder="https://..."
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Tax ID</label>
+                  <input
+                    type="text"
+                    className="input"
+                    value={formData.tax_id}
+                    onChange={(e) => handleInputChange('tax_id', e.target.value)}
+                    placeholder="Tax ID"
+                  />
+                </div>
+              </div>
+
+              {/* Checkboxes */}
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={formData.is_customer}
+                    onChange={(e) => handleInputChange('is_customer', e.target.checked)}
+                  />
+                  Is Customer
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={formData.is_vendor}
+                    onChange={(e) => handleInputChange('is_vendor', e.target.checked)}
+                  />
+                  Is Vendor
+                </label>
+              </div>
+
+              {/* Notes */}
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Notes</label>
+                <textarea
+                  className="input"
+                  value={formData.notes}
+                  onChange={(e) => handleInputChange('notes', e.target.value)}
+                  placeholder="Additional notes..."
+                  rows={3}
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', justifyContent: 'flex-end' }}>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={() => setShowModal(false)}
+                  disabled={isSubmitting}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isSubmitting}
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                >
+                  {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle size={16} />}
+                  {isSubmitting ? 'Creating...' : 'Create Contact'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
