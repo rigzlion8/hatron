@@ -6191,3 +6191,503 @@ pydantic_core._pydantic_core.ValidationError: 1 validation error for SalesOrderL
 contact
   Input should be a valid dictionary or instance of ContactInfo [type=model_type, input_value=<unprintable Contact object>, input_type=Contact]
     For further information visit https://errors.pydantic.dev/2.8/v/model_type
+
+--- ERROR AT http://localhost:8000/api/v1/sales/orders/df5563ff-364f-437f-bf31-19c56f75a1a6/confirm ---
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 77, in collapse_excgroups
+  |     yield
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 186, in __call__
+  |     async with anyio.create_task_group() as task_group:
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 799, in __aexit__
+  |     raise BaseExceptionGroup(
+  | exceptiongroup.ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    |     await self.app(scope, receive, _send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    |     await self.simple_response(scope, receive, send, request_headers=headers)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    |     await self.app(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 185, in __call__
+    |     with collapse_excgroups():
+    |   File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    |     self.gen.throw(typ, value, traceback)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 83, in collapse_excgroups
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 187, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/rigz/projects/hatron/backend/core/middleware/logging.py", line 24, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 163, in call_next
+    |     raise app_exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 149, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 715, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 735, in app
+    |     await route.handle(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 288, in handle
+    |     await self.app(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 76, in app
+    |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 73, in app
+    |     response = await f(request)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 301, in app
+    |     raw_response = await run_endpoint_function(
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 212, in run_endpoint_function
+    |     return await dependant.call(**values)
+    |   File "/home/rigz/projects/hatron/backend/modules/sales/router.py", line 184, in confirm_order
+    |     return await service.confirm_order(order_id, current_user.tenant_id)
+    |   File "/home/rigz/projects/hatron/backend/modules/sales/service.py", line 181, in confirm_order
+    |     await event_bus.publish("sales.order.confirmed", {
+    |   File "/home/rigz/projects/hatron/backend/core/events.py", line 76, in publish
+    |     from backend.workers.tasks import dispatch_event
+    | ImportError: cannot import name 'dispatch_event' from 'backend.workers.tasks' (/home/rigz/projects/hatron/backend/workers/tasks/__init__.py)
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 185, in __call__
+    with collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 83, in collapse_excgroups
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 187, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/hatron/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 163, in call_next
+    raise app_exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 149, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+  File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/hatron/backend/modules/sales/router.py", line 184, in confirm_order
+    return await service.confirm_order(order_id, current_user.tenant_id)
+  File "/home/rigz/projects/hatron/backend/modules/sales/service.py", line 181, in confirm_order
+    await event_bus.publish("sales.order.confirmed", {
+  File "/home/rigz/projects/hatron/backend/core/events.py", line 76, in publish
+    from backend.workers.tasks import dispatch_event
+ImportError: cannot import name 'dispatch_event' from 'backend.workers.tasks' (/home/rigz/projects/hatron/backend/workers/tasks/__init__.py)
+
+--- ERROR AT http://localhost:8000/api/v1/sales/orders/df5563ff-364f-437f-bf31-19c56f75a1a6/confirm ---
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 77, in collapse_excgroups
+  |     yield
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 186, in __call__
+  |     async with anyio.create_task_group() as task_group:
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 799, in __aexit__
+  |     raise BaseExceptionGroup(
+  | exceptiongroup.ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    |     await self.app(scope, receive, _send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    |     await self.simple_response(scope, receive, send, request_headers=headers)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    |     await self.app(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 185, in __call__
+    |     with collapse_excgroups():
+    |   File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    |     self.gen.throw(typ, value, traceback)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 83, in collapse_excgroups
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 187, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/rigz/projects/hatron/backend/core/middleware/logging.py", line 24, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 163, in call_next
+    |     raise app_exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 149, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 715, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 735, in app
+    |     await route.handle(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 288, in handle
+    |     await self.app(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 76, in app
+    |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 73, in app
+    |     response = await f(request)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 301, in app
+    |     raw_response = await run_endpoint_function(
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 212, in run_endpoint_function
+    |     return await dependant.call(**values)
+    |   File "/home/rigz/projects/hatron/backend/modules/sales/router.py", line 184, in confirm_order
+    |     return await service.confirm_order(order_id, current_user.tenant_id)
+    |   File "/home/rigz/projects/hatron/backend/modules/sales/service.py", line 181, in confirm_order
+    |     await event_bus.publish("sales.order.confirmed", {
+    |   File "/home/rigz/projects/hatron/backend/core/events.py", line 76, in publish
+    |     from backend.workers.tasks import dispatch_event
+    |   File "/home/rigz/projects/hatron/backend/workers/tasks.py", line 7, in <module>
+    |     from backend.workers.celery_app import celery_app
+    |   File "/home/rigz/projects/hatron/backend/workers/celery_app.py", line 3, in <module>
+    |     from celery import Celery
+    | ModuleNotFoundError: No module named 'celery'
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 185, in __call__
+    with collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 83, in collapse_excgroups
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 187, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/hatron/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 163, in call_next
+    raise app_exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 149, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+  File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/hatron/backend/modules/sales/router.py", line 184, in confirm_order
+    return await service.confirm_order(order_id, current_user.tenant_id)
+  File "/home/rigz/projects/hatron/backend/modules/sales/service.py", line 181, in confirm_order
+    await event_bus.publish("sales.order.confirmed", {
+  File "/home/rigz/projects/hatron/backend/core/events.py", line 76, in publish
+    from backend.workers.tasks import dispatch_event
+  File "/home/rigz/projects/hatron/backend/workers/tasks.py", line 7, in <module>
+    from backend.workers.celery_app import celery_app
+  File "/home/rigz/projects/hatron/backend/workers/celery_app.py", line 3, in <module>
+    from celery import Celery
+ModuleNotFoundError: No module named 'celery'
+
+--- ERROR AT http://localhost:8000/api/v1/sales/orders/dce78520-add6-4257-a98a-2ad8282de058/confirm ---
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 77, in collapse_excgroups
+  |     yield
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 186, in __call__
+  |     async with anyio.create_task_group() as task_group:
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 799, in __aexit__
+  |     raise BaseExceptionGroup(
+  | exceptiongroup.ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    |     await self.app(scope, receive, _send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    |     await self.simple_response(scope, receive, send, request_headers=headers)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    |     await self.app(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 185, in __call__
+    |     with collapse_excgroups():
+    |   File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    |     self.gen.throw(typ, value, traceback)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 83, in collapse_excgroups
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 187, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/rigz/projects/hatron/backend/core/middleware/logging.py", line 24, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 163, in call_next
+    |     raise app_exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 149, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 715, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 735, in app
+    |     await route.handle(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 288, in handle
+    |     await self.app(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 76, in app
+    |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 73, in app
+    |     response = await f(request)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 301, in app
+    |     raw_response = await run_endpoint_function(
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 212, in run_endpoint_function
+    |     return await dependant.call(**values)
+    |   File "/home/rigz/projects/hatron/backend/modules/sales/router.py", line 184, in confirm_order
+    |     return await service.confirm_order(order_id, current_user.tenant_id)
+    |   File "/home/rigz/projects/hatron/backend/modules/sales/service.py", line 181, in confirm_order
+    |     await event_bus.publish("sales.order.confirmed", {
+    |   File "/home/rigz/projects/hatron/backend/core/events.py", line 76, in publish
+    |     from backend.workers.tasks import dispatch_event
+    |   File "/home/rigz/projects/hatron/backend/workers/tasks.py", line 7, in <module>
+    |     from backend.workers.celery_app import celery_app
+    |   File "/home/rigz/projects/hatron/backend/workers/celery_app.py", line 3, in <module>
+    |     from celery import Celery
+    | ModuleNotFoundError: No module named 'celery'
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 185, in __call__
+    with collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 83, in collapse_excgroups
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 187, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/hatron/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 163, in call_next
+    raise app_exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 149, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+  File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/hatron/backend/modules/sales/router.py", line 184, in confirm_order
+    return await service.confirm_order(order_id, current_user.tenant_id)
+  File "/home/rigz/projects/hatron/backend/modules/sales/service.py", line 181, in confirm_order
+    await event_bus.publish("sales.order.confirmed", {
+  File "/home/rigz/projects/hatron/backend/core/events.py", line 76, in publish
+    from backend.workers.tasks import dispatch_event
+  File "/home/rigz/projects/hatron/backend/workers/tasks.py", line 7, in <module>
+    from backend.workers.celery_app import celery_app
+  File "/home/rigz/projects/hatron/backend/workers/celery_app.py", line 3, in <module>
+    from celery import Celery
+ModuleNotFoundError: No module named 'celery'
+
+--- ERROR AT http://localhost:8000/api/v1/sales/orders/e6351cfa-8b85-4e34-a6bd-4ad61c667e9c/confirm ---
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 77, in collapse_excgroups
+  |     yield
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 186, in __call__
+  |     async with anyio.create_task_group() as task_group:
+  |   File "/home/rigz/.local/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 799, in __aexit__
+  |     raise BaseExceptionGroup(
+  | exceptiongroup.ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    |     await self.app(scope, receive, _send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    |     await self.simple_response(scope, receive, send, request_headers=headers)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    |     await self.app(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 185, in __call__
+    |     with collapse_excgroups():
+    |   File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    |     self.gen.throw(typ, value, traceback)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 83, in collapse_excgroups
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 187, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |   File "/home/rigz/projects/hatron/backend/core/middleware/logging.py", line 24, in dispatch
+    |     response = await call_next(request)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 163, in call_next
+    |     raise app_exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 149, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 715, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 735, in app
+    |     await route.handle(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 288, in handle
+    |     await self.app(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 76, in app
+    |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    |     raise exc
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 73, in app
+    |     response = await f(request)
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 301, in app
+    |     raw_response = await run_endpoint_function(
+    |   File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 212, in run_endpoint_function
+    |     return await dependant.call(**values)
+    |   File "/home/rigz/projects/hatron/backend/modules/sales/router.py", line 184, in confirm_order
+    |     return await service.confirm_order(order_id, current_user.tenant_id)
+    |   File "/home/rigz/projects/hatron/backend/modules/sales/service.py", line 181, in confirm_order
+    |     await event_bus.publish("sales.order.confirmed", {
+    |   File "/home/rigz/projects/hatron/backend/core/events.py", line 76, in publish
+    |     from backend.workers.tasks import dispatch_event
+    |   File "/home/rigz/projects/hatron/backend/workers/tasks.py", line 7, in <module>
+    |     from backend.workers.celery_app import celery_app
+    |   File "/home/rigz/projects/hatron/backend/workers/celery_app.py", line 3, in <module>
+    |     from celery import Celery
+    | ModuleNotFoundError: No module named 'celery'
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 185, in __call__
+    with collapse_excgroups():
+  File "/usr/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_utils.py", line 83, in collapse_excgroups
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 187, in __call__
+    response = await self.dispatch_func(request, call_next)
+  File "/home/rigz/projects/hatron/backend/core/middleware/logging.py", line 24, in dispatch
+    response = await call_next(request)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 163, in call_next
+    raise app_exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/base.py", line 149, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/rigz/.local/lib/python3.10/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+  File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+  File "/home/rigz/.local/lib/python3.10/site-packages/fastapi/routing.py", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/rigz/projects/hatron/backend/modules/sales/router.py", line 184, in confirm_order
+    return await service.confirm_order(order_id, current_user.tenant_id)
+  File "/home/rigz/projects/hatron/backend/modules/sales/service.py", line 181, in confirm_order
+    await event_bus.publish("sales.order.confirmed", {
+  File "/home/rigz/projects/hatron/backend/core/events.py", line 76, in publish
+    from backend.workers.tasks import dispatch_event
+  File "/home/rigz/projects/hatron/backend/workers/tasks.py", line 7, in <module>
+    from backend.workers.celery_app import celery_app
+  File "/home/rigz/projects/hatron/backend/workers/celery_app.py", line 3, in <module>
+    from celery import Celery
+ModuleNotFoundError: No module named 'celery'

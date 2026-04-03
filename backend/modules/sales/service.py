@@ -1,5 +1,6 @@
 """Sales Service."""
 
+import logging
 import math
 import uuid
 from decimal import Decimal
@@ -176,11 +177,22 @@ class SalesService:
             
         order = await self.repo.update_order(order, status="confirmed")
         order = await self.repo.get_order(order.id, tenant_id)
-        
-        # PUBLISH EVENT FOR INVOICING MODULE TO LISTEN TO!
+
+        # Try local invoice generation as immediate fallback (no Celery dependency).
+        try:
+            from backend.modules.invoicing.service import InvoicingService
+            invoice_service = InvoicingService(self.db)
+            await invoice_service.create_invoice_from_order(order)
+        except Exception as e:
+            # Keep existing event bus logic for asynchronous processing.
+            # If local generation fails (e.g. missing dependency), let event bus try.
+            logger = logging.getLogger(__name__)
+            logger.warning(f"Failed create invoice directly from order {order_id}: {e}")
+
+        # Publish event for other system subscribers
         await event_bus.publish("sales.order.confirmed", {
             "order_id": str(order.id),
             "tenant_id": str(tenant_id)
         })
-        
+
         return SalesOrderResponse.model_validate(order)

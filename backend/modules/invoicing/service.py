@@ -16,7 +16,8 @@ from backend.modules.invoicing.schemas import (
     TaxRuleCreate, TaxRuleResponse,
     InvoiceCreate, InvoiceUpdate, InvoiceStateUpdate,
     InvoiceResponse, InvoiceListResponse,
-    PaymentCreate, PaymentResponse
+    PaymentCreate, PaymentResponse,
+    InvoiceLineCreate
 )
 # We will need the Sales Order service repo or direct DB query to fetch order details for the event handler.
 from backend.modules.sales.repository import SalesRepository
@@ -137,6 +138,36 @@ class InvoicingService:
         invoice = await self.repo.get_invoice(invoice.id, tenant_id)
         return InvoiceResponse.model_validate(invoice)
 
+    async def create_invoice_from_order(self, order) -> InvoiceResponse | None:
+        """Create an invoice from a confirmed sales order."""
+        if not order or not order.lines:
+            return None
+
+        from backend.modules.invoicing.schemas import InvoiceCreate, InvoiceLineCreate
+
+        line_items = []
+        for line in order.lines:
+            line_items.append(InvoiceLineCreate(
+                product_id=line.product_id,
+                description=line.description,
+                quantity=line.quantity,
+                unit_price=line.unit_price,
+                discount=line.discount or 0,
+                tax_id=getattr(line, 'tax_id', None),
+            ))
+
+        invoice_payload = InvoiceCreate(
+            contact_id=order.contact_id,
+            sales_order_id=order.id,
+            type="out_invoice",
+            invoice_date=None,
+            due_date=None,
+            notes=f"Generated from {order.order_number}",
+            lines=line_items,
+        )
+
+        return await self.create_invoice(order.tenant_id, order.created_by, invoice_payload)
+
     # ─── Payments ───
 
     async def create_payment(self, invoice_id: uuid.UUID, tenant_id: uuid.UUID, data: PaymentCreate) -> PaymentResponse:
@@ -169,6 +200,7 @@ async def generate_invoice_from_sales_order(data: dict):
     """Event handler for sales.order.confirmed."""
     # We need a new isolated DB session because event handlers run outside request lifecycle
     from backend.core.database import async_session_factory
+    import uuid
     
     order_id = uuid.UUID(data["order_id"])
     tenant_id = uuid.UUID(data["tenant_id"])
@@ -194,7 +226,6 @@ async def generate_invoice_from_sales_order(data: dict):
                 })
                 
             from datetime import date
-            import uuid
             
             invoice_data = InvoiceCreate(
                 contact_id=order.contact_id,
@@ -218,6 +249,102 @@ async def generate_invoice_from_sales_order(data: dict):
             await db.rollback()
             import logging
             logging.getLogger("erp.events").error(f"Failed to generate invoice for order {order_id}: {e}")
+
+
+def generate_invoice_from_sales_order_sync(data: dict):
+    """Synchronous event handler for sales.order.confirmed (for Celery workers)."""
+    from backend.core.database import sync_session_factory
+    import uuid
+    
+    order_id = uuid.UUID(data["order_id"])
+    tenant_id = uuid.UUID(data["tenant_id"])
+    
+    with sync_session_factory() as db:
+        try:
+            # Get the sales order
+            from backend.modules.sales.models import SalesOrder
+            order = db.query(SalesOrder).filter(
+                SalesOrder.id == order_id,
+                SalesOrder.tenant_id == tenant_id
+            ).first()
+            
+            if not order:
+                return
+                
+            # Generate invoice number
+            from backend.modules.invoicing.models import Invoice
+            count = db.query(Invoice).filter(Invoice.tenant_id == tenant_id).count()
+            invoice_number = f"INV-{count + 1:05d}"
+            
+            # Calculate totals
+            amount_untaxed = 0.0
+            amount_tax = 0.0
+            amount_total = 0.0
+            
+            lines_data = []
+            for line in order.lines:
+                unit_price = float(line.unit_price)
+                quantity = float(line.quantity)
+                discount = float(line.discount or 0)
+                
+                subtotal = quantity * unit_price * (1.0 - discount / 100.0)
+                amount_untaxed += subtotal
+                
+                # For now, skip tax calculation in sync version
+                amount_tax += 0.0
+                amount_total += subtotal
+                
+                lines_data.append({
+                    "tenant_id": tenant_id,
+                    "product_id": line.product_id,
+                    "description": line.description,
+                    "quantity": quantity,
+                    "unit_price": unit_price,
+                    "discount": discount,
+                    "tax_id": line.tax_id,
+                    "price_subtotal": subtotal,
+                    "price_tax": 0.0,
+                    "price_total": subtotal,
+                })
+            
+            # Create invoice
+            from datetime import date
+            invoice = Invoice(
+                tenant_id=tenant_id,
+                invoice_number=invoice_number,
+                contact_id=order.contact_id,
+                sales_order_id=order.id,
+                status="draft",
+                type="out_invoice",
+                invoice_date=date.today(),
+                amount_untaxed=amount_untaxed,
+                amount_tax=amount_tax,
+                amount_total=amount_total,
+                amount_residual=amount_total,
+                notes=f"Generated from {order.order_number}",
+                created_by=order.created_by,
+            )
+            
+            db.add(invoice)
+            db.flush()  # Get the invoice ID
+            
+            # Create invoice lines
+            from backend.modules.invoicing.models import InvoiceLine
+            for line_data in lines_data:
+                line_data["invoice_id"] = invoice.id
+                invoice_line = InvoiceLine(**line_data)
+                db.add(invoice_line)
+            
+            db.commit()
+            
+            import logging
+            logging.getLogger("erp.events").info(f"Successfully generated invoice {invoice_number} for order {order_id}")
+            
+        except Exception as e:
+            db.rollback()
+            import logging
+            logging.getLogger("erp.events").error(f"Failed to generate invoice for order {order_id}: {e}")
+            raise
 
 async def generate_bill_from_purchase_order(data: dict):
     """Event handler for purchase.order.confirmed -> Creates Vendor Bill (in_invoice)."""

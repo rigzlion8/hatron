@@ -10,7 +10,8 @@ import {
   X,
   Search,
   Box,
-  Truck
+  Truck,
+  Plus
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
@@ -83,6 +84,15 @@ export default function InventoryPage() {
   const [pickingLoading, setPickingLoading] = useState(false);
   const [validating, setValidating] = useState(false);
 
+  // Create Receipt / Picking State
+  const [showCreatePicking, setShowCreatePicking] = useState(false);
+  const [newPickingType, setNewPickingType] = useState<'incoming' | 'outgoing' | 'internal'>('incoming');
+  const [newPickingOrigin, setNewPickingOrigin] = useState('');
+  const [newPickingLocationId, setNewPickingLocationId] = useState<string>('');
+  const [newPickingDestLocationId, setNewPickingDestLocationId] = useState<string>('');
+  const [newPickingLines, setNewPickingLines] = useState<Array<{ product_id:string; quantity:number }>>([]);
+  const [creatingPicking, setCreatingPicking] = useState(false);
+
   // --- Initial Fetch ---
   useEffect(() => {
     fetchCoreData();
@@ -104,12 +114,21 @@ export default function InventoryPage() {
       ]);
       
       const prodMap: Record<string, Product> = {};
-      (prodRes.data.items || []).forEach((p: Product) => prodMap[p.id] = p);
+      (prodRes.data.data || []).forEach((p: Product) => prodMap[p.id] = p);
       setProducts(prodMap);
 
       const locMap: Record<string, Location> = {};
       (locRes.data || []).forEach((l: Location) => locMap[l.id] = l);
       setLocations(locMap);
+
+      // Set default new picking locations when possible
+      const locs: Location[] = locRes.data || [];
+      const internalLoc = locs.find(l => l.type === 'internal');
+      const vendorLoc = locs.find(l => l.type === 'vendor');
+      if (vendorLoc) setNewPickingLocationId(vendorLoc.id);
+      if (internalLoc) setNewPickingDestLocationId(internalLoc.id);
+      if (!vendorLoc && !internalLoc && locs.length > 0) setNewPickingLocationId(locs[0].id);
+      if (!internalLoc && locs.length > 0) setNewPickingDestLocationId(locs[0].id);
     } catch (err) {
       console.error("Failed to load core inventory data", err);
     }
@@ -131,7 +150,7 @@ export default function InventoryPage() {
     try {
       setLoading(true);
       const res = await api.get('/inventory/pickings?per_page=50');
-      setPickings(res.data.items || []);
+      setPickings(res.data.data || []);
     } catch (err) {
       console.error("Failed to load operations", err);
     } finally {
@@ -180,6 +199,65 @@ export default function InventoryPage() {
         updateMoveDoneQuantity(m.id, m.quantity);
       }
     });
+  };
+
+  const resetNewPickingForm = () => {
+    setNewPickingType('incoming');
+    setNewPickingOrigin('');
+    setNewPickingLines([]);
+    setNewPickingLocationId('');
+    setNewPickingDestLocationId('');
+  };
+
+  const handleAddPickingLine = () => {
+    setNewPickingLines(prev => [...prev, { product_id: '', quantity: 0 }]);
+  };
+
+  const handleUpdatePickingLine = (index: number, key: 'product_id' | 'quantity', value: string | number) => {
+    setNewPickingLines(prev => prev.map((line, i) => i === index ? { ...line, [key]: key === 'quantity' ? Number(value) : (value as string) } : line));
+  };
+
+  const handleRemovePickingLine = (index: number) => {
+    setNewPickingLines(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleCreatePicking = async () => {
+    if (!newPickingLocationId || !newPickingDestLocationId) {
+      alert('Please select source and destination locations');
+      return;
+    }
+    if (newPickingLines.length === 0 || newPickingLines.some(l => !l.product_id || l.quantity <= 0)) {
+      alert('Add at least one product and quantity');
+      return;
+    }
+
+    setCreatingPicking(true);
+    try {
+      const payload = {
+        type: newPickingType,
+        location_id: newPickingLocationId,
+        location_dest_id: newPickingDestLocationId,
+        origin: newPickingOrigin || undefined,
+        lines: newPickingLines.map(line => ({
+          name: products[line.product_id]?.name || 'Line Item',
+          product_id: line.product_id,
+          location_id: newPickingLocationId,
+          location_dest_id: newPickingDestLocationId,
+          quantity: line.quantity,
+          quantity_done: 0
+        }))
+      };
+      await api.post('/inventory/pickings', payload);
+      setShowCreatePicking(false);
+      resetNewPickingForm();
+      fetchPickings();
+      alert('Picking/receipt created successfully. Open it and Validate to update stock.');
+    } catch (err: any) {
+      console.error('Failed to create picking', err);
+      alert(err.response?.data?.message || err.response?.data?.error || 'Failed to create picking');
+    } finally {
+      setCreatingPicking(false);
+    }
   };
 
   const handleValidatePicking = async () => {
@@ -362,7 +440,17 @@ export default function InventoryPage() {
 
         {/* --- OPERATIONS VIEW --- */}
         {activeTab === 'operations' && (
-          <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
+          <>
+            <div style={{ padding: '1rem 1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+              <button
+                className="btn btn-primary"
+                onClick={() => setShowCreatePicking(true)}
+                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              >
+                <Plus size={16} /> New Receipt/Picking
+              </button>
+            </div>
+            <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
                 <tr style={{ backgroundColor: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-color)', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
@@ -424,6 +512,7 @@ export default function InventoryPage() {
               </tbody>
             </table>
           </div>
+        </>
         )}
       </div>
 
@@ -557,6 +646,111 @@ export default function InventoryPage() {
                   {validating ? 'Validating...' : 'Validate Transfer'}
                 </button>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- Create Picking/Receipt Modal --- */}
+      {showCreatePicking && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backdropFilter: 'blur(4px)'
+        }}>
+          <div className="card animate-fade-in" style={{ 
+            width: '95%', 
+            maxWidth: '760px', 
+            maxHeight: '90vh',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: 0,
+            overflow: 'hidden'
+          }}>
+            <div style={{ padding: '1.25rem', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--bg-secondary)' }}>
+              <h2 style={{ margin: 0, fontSize: '1.25rem' }}>Create Receipt / Picking</h2>
+              <button type="button" onClick={() => setShowCreatePicking(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={20} /></button>
+            </div>
+
+            <div style={{ padding: '1rem 1.5rem', overflowY: 'auto', flex: 1 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 600 }}>Type</label>
+                  <select className="input" value={newPickingType} onChange={(e) => setNewPickingType(e.target.value as 'incoming' | 'outgoing' | 'internal')}>
+                    <option value="incoming">Incoming (Receipt)</option>
+                    <option value="outgoing">Outgoing (Delivery)</option>
+                    <option value="internal">Internal Transfer</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 600 }}>Origin</label>
+                  <input type="text" className="input" value={newPickingOrigin} onChange={(e) => setNewPickingOrigin(e.target.value)} placeholder="e.g. PO-1234" />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '0.75rem' }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 600 }}>From Location</label>
+                  <select className="input" value={newPickingLocationId} onChange={(e) => setNewPickingLocationId(e.target.value)}>
+                    <option value="">Select from location</option>
+                    {Object.values(locations).map(loc => (
+                      <option key={loc.id} value={loc.id}>{loc.name} ({loc.type})</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 600 }}>To Location</label>
+                  <select className="input" value={newPickingDestLocationId} onChange={(e) => setNewPickingDestLocationId(e.target.value)}>
+                    <option value="">Select destination location</option>
+                    {Object.values(locations).map(loc => (
+                      <option key={loc.id} value={loc.id}>{loc.name} ({loc.type})</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div style={{ marginTop: '1rem', fontWeight: 600, marginBottom: '0.5rem' }}>Lines</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {newPickingLines.map((line, index) => (
+                  <div key={index} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 0.3fr', gap: '0.5rem', alignItems: 'center' }}>
+                    <select
+                      className="input"
+                      value={line.product_id}
+                      onChange={(e) => handleUpdatePickingLine(index, 'product_id', e.target.value)}
+                    >
+                      <option value="">Select product</option>
+                      {Object.values(products).map(p => (
+                        <option key={p.id} value={p.id}>{p.name} ({p.sku})</option>
+                      ))}
+                    </select>
+                    <input
+                      type="number"
+                      className="input"
+                      min={0}
+                      value={line.quantity}
+                      onChange={(e) => handleUpdatePickingLine(index, 'quantity', Number(e.target.value))}
+                      placeholder="Qty"
+                    />
+                    <button type="button" className="btn btn-danger" onClick={() => handleRemovePickingLine(index)} style={{ padding: '0.35rem 0.55rem' }}>X</button>
+                  </div>
+                ))}
+                <button type="button" className="btn btn-secondary" onClick={handleAddPickingLine} style={{ marginTop: '0.5rem' }}>Add line</button>
+              </div>
+            </div>
+
+            <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--border-color)', backgroundColor: 'var(--bg-secondary)', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+              <button type="button" className="btn btn-secondary" onClick={() => { setShowCreatePicking(false); resetNewPickingForm(); }}>Cancel</button>
+              <button type="button" className="btn btn-primary" onClick={handleCreatePicking} disabled={creatingPicking}>
+                {creatingPicking ? 'Creating...' : 'Create Receipt / Picking'}
+              </button>
             </div>
           </div>
         </div>

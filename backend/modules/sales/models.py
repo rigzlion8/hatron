@@ -18,9 +18,10 @@ from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from backend.core.database import Base
+from backend.modules.contacts.models import Contact
 
 if TYPE_CHECKING:
-    from backend.modules.contacts.models import Contact
+    pass
 
 
 class ProductCategory(Base):

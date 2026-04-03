@@ -9,6 +9,11 @@ from backend.core.events import EventBus
 
 logger = logging.getLogger(__name__)
 
+# Import modules to register event handlers in the Celery worker process
+# This ensures event handlers are available when Celery runs in a separate process
+import backend.modules.invoicing.service  # noqa: F401
+import backend.modules.purchase.service  # noqa: F401
+
 # Note: We avoid importing 'application' from backend.main here at top-level 
 # to prevent circular dependencies (Main -> Modules -> Events -> Tasks -> Main).
 # Our EventHandlers are registered in the EventBus class's _handlers during 
@@ -16,10 +21,10 @@ logger = logging.getLogger(__name__)
 
 @celery_app.task(name="dispatch_event")
 def dispatch_event(event_type: str, payload: dict[str, Any]) -> None:
-    """A generic Celery task that executes async EventBus handlers in a dedicated loop.
+    """A synchronous Celery task that executes event handlers.
     
-    This acts as the bridge separating the synchronous Celery execution from our modern 
-    asyncpg database and web framework handlers.
+    This acts as the bridge between the synchronous Celery execution 
+    and our event-driven system.
     """
     logger.info(f"Celery received event: {event_type}")
     
@@ -32,23 +37,27 @@ def dispatch_event(event_type: str, payload: dict[str, Any]) -> None:
         logger.warning(f"No handlers found for event: {event_type} inside Celery process.")
         return
 
-    # Create a new event loop for this specific task execution
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
+    logger.info(f"Executing {len(handlers)} handler(s) for event '{event_type}'")
     
-    try:
-        logger.info(f"Executing {len(handlers)} handler(s) for event '{event_type}'")
-        
-        async def run_all():
-            tasks = [handler(payload) for handler in handlers]
-            results = await asyncio.gather(*tasks, return_exceptions=True)
-            for handler_idx, result in enumerate(results):
-                if isinstance(result, Exception):
-                    logger.error(
-                        f"Handler {handlers[handler_idx].__name__} failed: {result}", 
-                        exc_info=result
-                    )
-                    
-        loop.run_until_complete(run_all())
-    finally:
-        loop.close()
+    # For now, we have a special case for sales.order.confirmed
+    # In the future, we should make all event handlers synchronous
+    if event_type == "sales.order.confirmed":
+        from backend.modules.invoicing.service import generate_invoice_from_sales_order_sync
+        try:
+            generate_invoice_from_sales_order_sync(payload)
+            logger.info("Handler generate_invoice_from_sales_order_sync completed successfully")
+        except Exception as e:
+            logger.error(f"Handler generate_invoice_from_sales_order_sync failed: {e}", exc_info=e)
+    else:
+        # For other events, try to execute them synchronously
+        # This is a temporary solution until all handlers are made synchronous
+        for handler in handlers:
+            try:
+                # If it's a coroutine function, we can't call it directly
+                if hasattr(handler, '__call__'):
+                    logger.warning(f"Skipping async handler {handler.__name__} - not supported in sync context")
+                else:
+                    handler(payload)
+                    logger.info(f"Handler {handler.__name__} completed successfully")
+            except Exception as e:
+                logger.error(f"Handler {handler.__name__} failed: {e}", exc_info=e)

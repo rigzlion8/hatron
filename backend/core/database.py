@@ -5,6 +5,8 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.orm import DeclarativeBase
 
 from backend.settings import settings
@@ -22,6 +24,22 @@ engine = create_async_engine(
 async_session_factory = async_sessionmaker(
     engine,
     class_=AsyncSession,
+    expire_on_commit=False,
+)
+
+# Synchronous engine for Celery workers
+sync_engine = create_engine(
+    settings.DATABASE_URL_SYNC,
+    echo=settings.DB_ECHO,
+    pool_size=5,
+    max_overflow=5,
+    pool_pre_ping=True,
+)
+
+# Synchronous session factory for Celery workers
+sync_session_factory = sessionmaker(
+    sync_engine,
+    class_=Session,
     expire_on_commit=False,
 )
 

@@ -72,12 +72,37 @@ class EventBus:
             f"Enqueueing event '{event_type}' explicitly to Celery background task worker "
             f"({len(handlers)} handler(s) will execute offline)."
         )
-        
-        from backend.workers.tasks import dispatch_event
-        
+
+        try:
+            from backend.workers.tasks import dispatch_event
+        except Exception as e:
+            logger.warning(f"Celery not available, running event handlers inline: {e}")
+            # Fallback: execute handlers immediately in current process
+            async def run_handlers():
+                results = await asyncio.gather(*[h(payload) for h in handlers], return_exceptions=True)
+                for idx, result in enumerate(results):
+                    if isinstance(result, Exception):
+                        logger.error(f"Handler {handlers[idx].__name__} failed: {result}", exc_info=result)
+
+            import asyncio
+            await run_handlers()
+            return
+
         # Dispatch the celery task
         # We fire and forget, utilizing Celery's `.delay` syntactic sugar
-        dispatch_event.delay(event_type, payload)
+        try:
+            dispatch_event.delay(event_type, payload)
+        except AttributeError:
+            # If Celery is not installed or .delay unavailable, run inline for local dev.
+            logger.info("dispatch_event has no delay; executing inline.")
+            async def run_handlers():
+                results = await asyncio.gather(*[h(payload) for h in handlers], return_exceptions=True)
+                for idx, result in enumerate(results):
+                    if isinstance(result, Exception):
+                        logger.error(f"Handler {handlers[idx].__name__} failed: {result}", exc_info=result)
+
+            import asyncio
+            await run_handlers()
 
     @classmethod
     def clear(cls) -> None:
