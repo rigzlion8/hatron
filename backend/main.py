@@ -107,7 +107,7 @@ def create_app() -> FastAPI:
     uploads_dir = settings.UPLOAD_DIR
     if not os.path.exists(uploads_dir):
         os.makedirs(uploads_dir)
-    application.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
+    application.mount("/api/v1/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
     logger.info(
         f"🚀 {settings.APP_NAME} initialized "
