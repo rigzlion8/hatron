@@ -11,9 +11,6 @@ const API_URL =
 // Create an Axios instance with base configuration
 export const api = axios.create({
   baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 // Request Interceptor: Attach JWT Token and Log
@@ -28,6 +25,12 @@ api.interceptors.request.use(
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
+
+    // Don't set Content-Type for FormData (let browser set multipart/form-data)
+    if (!(config.data instanceof FormData)) {
+      config.headers['Content-Type'] = 'application/json';
+    }
+    
     return config;
   },
   (error) => {

@@ -60,7 +60,7 @@ class SalesRepository:
         if search:
             stmt = stmt.where(or_(Product.name.ilike(f"%{search}%"), Product.sku.ilike(f"%{search}%")))
             
-        stmt = stmt.order_by(Product.name).offset(offset).limit(limit)
+        stmt = stmt.order_by(Product.created_at.desc()).offset(offset).limit(limit)
         result = await self.db.execute(stmt)
         return list(result.scalars().all())
 

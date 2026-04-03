@@ -2286,3 +2286,19 @@ INFO:     127.0.0.1:53388 - "GET /api/v1/pos/products HTTP/1.1" 200 OK
 INFO:     127.0.0.1:53398 - "GET /api/v1/pos/sessions HTTP/1.1" 200 OK
 2026-04-03 18:02:39 | INFO     | erp.request | [acb2b212] GET /api/v1/pos/sessions → 200 in 0.050s
 INFO:     127.0.0.1:53412 - "GET /api/v1/pos/sessions HTTP/1.1" 200 OK
+2026-04-03 18:03:25 | INFO     | erp.request | [a43a4ca3] GET /api/v1/contacts → 200 in 0.139s
+INFO:     127.0.0.1:46054 - "GET /api/v1/contacts?per_page=100 HTTP/1.1" 200 OK
+2026-04-03 18:03:25 | INFO     | erp.request | [e51cb13a] GET /api/v1/contacts → 200 in 0.053s
+INFO:     127.0.0.1:46060 - "GET /api/v1/contacts?per_page=100 HTTP/1.1" 200 OK
+2026-04-03 18:03:40 | INFO     | erp.request | [82fbf52a] GET /api/v1/products/categories → 200 in 0.137s
+INFO:     127.0.0.1:59056 - "GET /api/v1/products/categories HTTP/1.1" 200 OK
+2026-04-03 18:03:40 | INFO     | erp.request | [2fd5dcdc] GET /api/v1/products → 200 in 0.180s
+INFO:     127.0.0.1:59060 - "GET /api/v1/products?per_page=100 HTTP/1.1" 200 OK
+2026-04-03 18:03:40 | INFO     | erp.request | [ec0ffa87] GET /api/v1/inventory/quants → 200 in 0.177s
+INFO:     127.0.0.1:59072 - "GET /api/v1/inventory/quants HTTP/1.1" 200 OK
+2026-04-03 18:03:40 | INFO     | erp.request | [768da503] GET /api/v1/products/categories → 200 in 0.063s
+INFO:     127.0.0.1:59084 - "GET /api/v1/products/categories HTTP/1.1" 200 OK
+2026-04-03 18:03:40 | INFO     | erp.request | [a579bb0f] GET /api/v1/inventory/quants → 200 in 0.127s
+INFO:     127.0.0.1:59092 - "GET /api/v1/inventory/quants HTTP/1.1" 200 OK
+2026-04-03 18:03:40 | INFO     | erp.request | [d8078fd3] GET /api/v1/products → 200 in 0.135s
+INFO:     127.0.0.1:59088 - "GET /api/v1/products?per_page=100 HTTP/1.1" 200 OK

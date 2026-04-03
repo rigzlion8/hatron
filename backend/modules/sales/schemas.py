@@ -32,6 +32,7 @@ class ProductCreate(BaseModel):
     cost: Decimal = Field(default=Decimal(0), ge=0)
     description_sales: Optional[str] = None
     attributes: Optional[dict] = None
+    image_url: Optional[str] = Field(None, max_length=500)
 
 class ProductUpdate(BaseModel):
     name: Optional[str] = Field(None, max_length=255)
@@ -43,6 +44,7 @@ class ProductUpdate(BaseModel):
     description_sales: Optional[str] = None
     attributes: Optional[dict] = None
     is_active: Optional[bool] = None
+    image_url: Optional[str] = Field(None, max_length=500)
 
 class ProductResponse(OrmBase):
     id: uuid.UUID
@@ -55,6 +57,7 @@ class ProductResponse(OrmBase):
     cost: Decimal
     description_sales: Optional[str] = None
     attributes: Optional[dict] = None
+    image_url: Optional[str] = None
     is_active: bool
     created_at: datetime
     updated_at: datetime

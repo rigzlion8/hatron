@@ -1,10 +1,12 @@
 """Sales module API Router."""
 
+import os
 import uuid
 from typing import Optional
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, Query, status, UploadFile, File, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+from backend.settings import settings
 
 from backend.core.dependencies import get_current_user, get_db
 from backend.core.schemas import PaginatedResponse
@@ -83,6 +85,48 @@ async def update_product(
 ):
     service = SalesService(db)
     return await service.update_product(product_id, current_user.tenant_id, data)
+
+
+@products_router.post("/{product_id}/upload-image", response_model=dict)
+async def upload_product_image(
+    product_id: uuid.UUID,
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Upload product image and return the file path."""
+    # Validate file type
+    allowed_types = {"image/jpeg", "image/png", "image/gif", "image/webp"}
+    if file.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid file type. Allowed types: {', '.join(allowed_types)}"
+        )
+    
+    # Create upload directory if it doesn't exist
+    os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+    
+    # Generate unique filename
+    tenant_id = current_user.tenant_id
+    file_ext = os.path.splitext(file.filename)[1]
+    filename = f"product_{product_id}_{uuid.uuid4()}{file_ext}"
+    filepath = os.path.join(settings.UPLOAD_DIR, str(tenant_id), filename)
+    
+    # Create tenant directory if it doesn't exist
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    
+    # Save file
+    contents = await file.read()
+    with open(filepath, "wb") as f:
+        f.write(contents)
+    
+    # Return a path that can be passed through Next.js proxy
+    relative_path = f"/api/v1/uploads/{tenant_id}/{filename}"
+    
+    return {
+        "url": relative_path,
+        "filename": filename
+    }
 
 
 # ─── Sales Orders ───

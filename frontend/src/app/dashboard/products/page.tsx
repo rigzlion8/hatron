@@ -63,6 +63,8 @@ export default function ProductsPage() {
   const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dynamicAttributes, setDynamicAttributes] = useState<{key: string, value: string}[]>([]);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // --- Initial Fetch ---
   useEffect(() => {
@@ -77,9 +79,10 @@ export default function ProductsPage() {
         api.get('/products/categories'),
         api.get('/inventory/quants') // Used to compute On Hand
       ]);
-      setProducts(prodRes.data.items || []);
+      setProducts(prodRes.data.data || []);
       setCategories(catRes.data || []);
       setQuants(quantRes.data || []);
+      console.log("Loaded products:", prodRes.data.data?.length, "total items");
     } catch (err) {
       console.error("Failed to load products page data", err);
     } finally {
@@ -99,6 +102,8 @@ export default function ProductsPage() {
       is_active: true
     });
     setDynamicAttributes([]);
+    setSelectedImage(null);
+    setImagePreview(null);
     setShowModal(true);
   };
 
@@ -106,6 +111,8 @@ export default function ProductsPage() {
     setEditingProduct(prod);
     const attrs = prod.attributes || {};
     setDynamicAttributes(Object.entries(attrs).map(([key, value]) => ({ key, value })));
+    setSelectedImage(null);
+    setImagePreview(prod.image_url || null);
     setShowModal(true);
   };
 
@@ -119,6 +126,18 @@ export default function ProductsPage() {
 
   const handleRemoveAttribute = (index: number) => {
     setDynamicAttributes(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImagePreview(event.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -135,18 +154,46 @@ export default function ProductsPage() {
       }
     });
 
+    let imageUrl = editingProduct.image_url;
+
+    // Upload image if selected
+    if (selectedImage && editingProduct.id) {
+      try {
+        const formData = new FormData();
+        formData.append('file', selectedImage);
+        const uploadRes = await api.post(`/products/${editingProduct.id}/upload-image`, formData);
+        imageUrl = uploadRes.data.url;
+      } catch (err) {
+        console.error("Failed to upload image", err);
+        alert("Failed to upload image. Continuing without image...");
+      }
+    }
+
     const payload = {
       ...editingProduct,
-      attributes: Object.keys(finalAttributes).length > 0 ? finalAttributes : null
+      attributes: Object.keys(finalAttributes).length > 0 ? finalAttributes : null,
+      image_url: imageUrl
     };
 
     try {
       if (editingProduct.id) {
         await api.patch(`/products/${editingProduct.id}`, payload);
       } else {
-        await api.post('/products', payload);
+        const res = await api.post('/products', payload);
+        // Upload image after product creation
+        if (selectedImage && res.data.id) {
+          try {
+            const formData = new FormData();
+            formData.append('file', selectedImage);
+            const uploadRes = await api.post(`/products/${res.data.id}/upload-image`, formData);
+            await api.patch(`/products/${res.data.id}`, { image_url: uploadRes.data.url });
+          } catch (err) {
+            console.error("Failed to upload image after creation", err);
+          }
+        }
       }
       setShowModal(false);
+      setSearchQuery(''); // Clear search to show all products including new one
       fetchCoreData();
     } catch (err) {
       alert("Failed to save product details");
@@ -375,11 +422,20 @@ export default function ProductsPage() {
                     <input 
                       type="number" 
                       step="0.01"
+                      min="0"
                       className="input" 
                       style={{ width: '100%' }}
                       required
-                      value={editingProduct.price || 0}
-                      onChange={(e) => setEditingProduct({...editingProduct, price: Number(e.target.value)})}
+                      value={editingProduct.price || ''}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setEditingProduct({...editingProduct, price: value === '' ? 0 : Number(value)});
+                      }}
+                      onBlur={(e) => {
+                        if (e.target.value === '') {
+                          setEditingProduct({...editingProduct, price: 0});
+                        }
+                      }}
                     />
                   </div>
                   <div>
@@ -387,10 +443,19 @@ export default function ProductsPage() {
                     <input 
                       type="number" 
                       step="0.01"
+                      min="0"
                       className="input" 
                       style={{ width: '100%' }}
-                      value={editingProduct.cost || 0}
-                      onChange={(e) => setEditingProduct({...editingProduct, cost: Number(e.target.value)})}
+                      value={editingProduct.cost || ''}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setEditingProduct({...editingProduct, cost: value === '' ? 0 : Number(value)});
+                      }}
+                      onBlur={(e) => {
+                        if (e.target.value === '') {
+                          setEditingProduct({...editingProduct, cost: 0});
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -408,6 +473,61 @@ export default function ProductsPage() {
                       <option key={c.id} value={c.id}>{c.name}</option>
                     ))}
                   </select>
+                </div>
+
+                {/* --- IMAGE UPLOAD --- */}
+                <div style={{ marginBottom: '2rem', padding: '1.5rem', backgroundColor: 'var(--bg-secondary)', borderRadius: '0.5rem', border: '1px solid var(--border-color)' }}>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: 600 }}>Product Image</label>
+                  <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+                    {/* Image Preview */}
+                    <div style={{
+                      width: '100px',
+                      height: '100px',
+                      borderRadius: '0.5rem',
+                      backgroundColor: 'var(--bg-primary)',
+                      border: '2px dashed var(--border-color)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      overflow: 'hidden',
+                      flexShrink: 0
+                    }}>
+                      {imagePreview ? (
+                        <img src={imagePreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                      ) : (
+                        <Box size={32} color="var(--text-tertiary)" />
+                      )}
+                    </div>
+                    {/* Upload Input */}
+                    <div style={{ flex: 1 }}>
+                      <label style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '1rem',
+                        backgroundColor: 'var(--bg-primary)',
+                        borderRadius: '0.5rem',
+                        border: '2px dashed var(--accent-primary)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          style={{ display: 'none' }}
+                        />
+                        <span style={{ color: 'var(--accent-primary)', fontWeight: 500 }}>
+                          Click to upload image (JPEG, PNG, GIF, WebP)
+                        </span>
+                      </label>
+                      {selectedImage && (
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
+                          Selected: {selectedImage.name}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 {/* --- DYNAMIC ATTRIBUTES --- */}

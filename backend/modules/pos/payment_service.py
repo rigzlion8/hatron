@@ -27,18 +27,37 @@ class MpesaService:
 
     async def _get_access_token(self) -> str:
         """Authenticate with Daraja API and return an access token."""
+        if not self.consumer_key or not self.consumer_secret:
+            logger.error("M-Pesa credentials are missing in settings")
+            raise ValueError("M-Pesa consumer key and secret must be configured")
+
         url = f"{self.base_url}/oauth/v1/generate?grant_type=client_credentials"
         credentials = base64.b64encode(
             f"{self.consumer_key}:{self.consumer_secret}".encode()
         ).decode()
 
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.get(
                 url,
                 headers={"Authorization": f"Basic {credentials}"}
             )
-            response.raise_for_status()
-            return response.json()["access_token"]
+
+            if response.status_code != 200:
+                logger.error(
+                    "M-Pesa token request failed: %s %s %s",
+                    response.status_code,
+                    response.text,
+                    response.headers,
+                )
+                response.raise_for_status()
+
+            payload = response.json()
+            token = payload.get("access_token")
+            if not token:
+                logger.error("M-Pesa token response missing access_token: %s", payload)
+                raise RuntimeError("Failed to obtain M-Pesa access token")
+
+            return token
 
     def _generate_password(self) -> tuple[str, str]:
         """Generate the STK Push password and timestamp."""
@@ -85,7 +104,7 @@ class MpesaService:
 
         url = f"{self.base_url}/mpesa/stkpush/v1/processrequest"
 
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.post(
                 url,
                 json=payload,
@@ -94,6 +113,9 @@ class MpesaService:
                     "Content-Type": "application/json"
                 }
             )
+            if response.status_code != 200:
+                logger.error("M-Pesa STK Push failed: %s %s", response.status_code, response.text)
+                response.raise_for_status()
             result = response.json()
             logger.info(f"M-Pesa STK Push response: {result}")
             return result

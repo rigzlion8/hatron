@@ -5,10 +5,12 @@ and module routers.
 """
 
 import logging
+import os
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from backend.core.exceptions import ERPException
 from backend.core.middleware.logging import RequestLoggingMiddleware
@@ -99,6 +101,13 @@ def create_app() -> FastAPI:
 
     # Register module routers
     _register_routers(application)
+
+    # ─── Static Files ───
+    # Mount uploads directory for serving uploaded files
+    uploads_dir = settings.UPLOAD_DIR
+    if not os.path.exists(uploads_dir):
+        os.makedirs(uploads_dir)
+    application.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
     logger.info(
         f"🚀 {settings.APP_NAME} initialized "
