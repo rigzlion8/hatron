@@ -114,7 +114,7 @@ class SalesRepository:
         self, tenant_id: uuid.UUID, offset: int = 0, limit: int = 20, 
         contact_id: Optional[uuid.UUID] = None, status: Optional[str] = None
     ) -> list[SalesOrder]:
-        stmt = select(SalesOrder).where(SalesOrder.tenant_id == tenant_id)
+        stmt = select(SalesOrder).options(selectinload(SalesOrder.contact)).where(SalesOrder.tenant_id == tenant_id)
         if contact_id:
             stmt = stmt.where(SalesOrder.contact_id == contact_id)
         if status:

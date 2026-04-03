@@ -121,7 +121,7 @@ async def upload_product_image(
         f.write(contents)
     
     # Return a path that can be passed through Next.js proxy
-    relative_path = f"/api/v1/uploads/{tenant_id}/{filename}"
+    relative_path = f"/uploads/{tenant_id}/{filename}"
     
     return {
         "url": relative_path,

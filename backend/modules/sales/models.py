@@ -2,6 +2,7 @@
 
 import uuid
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import (
     Boolean,
@@ -17,6 +18,9 @@ from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from backend.core.database import Base
+
+if TYPE_CHECKING:
+    from backend.modules.contacts.models import Contact
 
 
 class ProductCategory(Base):
@@ -95,6 +99,7 @@ class SalesOrder(Base):
     lines: Mapped[list["SalesOrderLine"]] = relationship(
         back_populates="order", cascade="all, delete-orphan", lazy="selectin"
     )
+    contact: Mapped["Contact | None"] = relationship(lazy="selectin")
 
     def __repr__(self):
         return f"<SalesOrder {self.order_number} ({self.status})>"

@@ -92,7 +92,7 @@ export default function SalesPage() {
       setLoading(true);
       const res = await api.get('/sales/orders?per_page=50');
       // The API returns paginated structure
-      setOrders(res.data.items || []);
+      setOrders(res.data.data || []);
     } catch (err) {
       console.error("Failed to load orders", err);
     } finally {
@@ -106,8 +106,8 @@ export default function SalesPage() {
         api.get('/contacts'),
         api.get('/products?per_page=100')
       ]);
-      setContacts(contactsRes.data.items || []);
-      setProducts(productsRes.data.items || []);
+      setContacts(contactsRes.data.data || []);
+      setProducts(productsRes.data.data || []);
     } catch (err) {
       console.error("Failed to load dependencies", err);
     }

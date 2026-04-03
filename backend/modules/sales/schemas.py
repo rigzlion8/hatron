@@ -66,6 +66,9 @@ class ProductResponse(OrmBase):
 
 # ─── Sales Orders ───
 
+class ContactInfo(OrmBase):
+    name: str
+
 class SalesOrderLineCreate(BaseModel):
     product_id: uuid.UUID
     description: Optional[str] = None
@@ -131,3 +134,4 @@ class SalesOrderListResponse(OrmBase):
     status: str
     order_date: datetime
     amount_total: Decimal
+    contact: Optional[ContactInfo] = None
